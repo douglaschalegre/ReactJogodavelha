@@ -10,6 +10,29 @@ import './index.css';
         </button>
         );
     }
+
+    //retorna
+    function calculateWinner(squares){
+        //conjunto de quadrados que pode definir um vencedor
+        const lines = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+          ];
+
+        for(let i = 0; i < lines.length; i++){
+            const [a,b,c] = lines[i];
+            if(squares[a] && squares[a] === squares[b] && squares[a] === squares[c]){
+                return squares[a];
+            }
+        }
+        return null;
+    }
   
     class Board extends React.Component {
         constructor(props){
@@ -24,6 +47,10 @@ import './index.css';
     handleClick(i){
         //cria um cópia dos estados atuais dos squares
         const squares = this.state.squares.slice();
+        //se o vencedor já tiver sido escolhido não deixa mudar os valores
+        if(calculateWinner(squares) || squares[i]){
+            return;
+        }
         //verifica se agora é a vez do X ou O
         squares[i] = this.state.nextIsX ? 'X' : 'O';
         this.setState({
@@ -42,8 +69,14 @@ import './index.css';
     }
   
     render() {
-      const status = 'Next player: ' + (this.state.nextIsX ? 'X' : 'O');
-  
+        const winner = calculateWinner(this.state.squares)
+        let status;
+        if(winner){
+            status = 'Winner: ' + winner;
+        }else{
+            status = 'Next player: ' + (this.state.nextIsX ? 'X' : 'O');
+        }
+
       return (
         <div>
           <div className="status">{status}</div>
