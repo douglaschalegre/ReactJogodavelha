@@ -11,7 +11,6 @@ import './index.css';
         );
     }
 
-    //retorna
     function calculateWinner(squares){
         //conjunto de quadrados que pode definir um vencedor
         const lines = [
@@ -42,6 +41,14 @@ import './index.css';
                  // por padrão o jogo é iniciado pelo X
                 nextIsX: true,
             };
+    }
+
+    resetBtn(){
+        this.setState({
+            squares: Array(9).fill(null),
+             // por padrão o jogo é iniciado pelo X
+            nextIsX: true,
+        });
     }
 
     handleClick(i){
@@ -95,6 +102,7 @@ import './index.css';
             {this.renderSquare(7)}
             {this.renderSquare(8)}
           </div>
+          <button onClick={()=> this.resetBtn()}> Reset</button>
         </div>
       );
     }
